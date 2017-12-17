@@ -1,3 +1,4 @@
+#coding=utf-8
 import easygui as g
 import user
 import net
@@ -103,8 +104,13 @@ def danche():
                 continue
             l = net.sent("chache " + " ".join(fieldValues)).split()
             if l[0] == "ok":
-                s = ""
-                s += "info: " + l[1] + "\n"
+                s = "单车编号: " + fieldValues[0] + "\n"
+                s += "单车类型: " + l[1] + "\n"
+                s += "单车单价: " + l[2] + "\n"
+                s += "单车区域: " + l[3] + "\n"
+                s += "单车街道: " + l[4] + "\n"
+                s += "经度: " + l[5] + "\n"
+                s += "维度: " + l[6] + "\n"
                 g.textbox(msg="单车信息如下:", title="单车信息", text=s)
             elif l[0] == "not_exist":
                 g.msgbox("单车不存在", title="删除单车")

@@ -1,3 +1,4 @@
+#coding=utf-8
 import easygui as g
 import net
 import time
@@ -63,6 +64,8 @@ def zuche(user):
                 errmsg = "该车已经被人租借"
             elif retval == "not_exist":
                 errmsg = "该编号不存在"
+            elif retval == "broken":
+                errmsg = "该车已经损坏"
             elif retval == "one_bike_only":
                 errmsg = "您一次只能租一辆车"
             elif retval == "no_money":
@@ -94,9 +97,10 @@ def chongzhi(user):
         if fieldval == None:
             break
         errmsg = ""
-        if not fieldval.isnumeric():
-            errmsg += "请输入合法的金额数  "
-        elif float(fieldval) == 0:
+        try:
+            if float(fieldval) == 0:
+                errmsg += "请输入合法的金额数  "
+        except:
             errmsg += "请输入合法的金额数  "
         if errmsg == "":
             retval = net.sent("chongzhi " + user + " " + fieldval)
@@ -115,6 +119,8 @@ def zhanghu(user):
     content = net.sent("zhanghu " + user).split()
     s = ""
     s += "用户名: " + content[0] + "\n"
+    s += "用户类型: " + content[1] + "\n"
+    s += "账户余额: " + content[2] + "\n"
     g.textbox(msg=("账户信息:"), title="账户信息", text=s)
 
 
@@ -124,11 +130,35 @@ net发送: dingdan user
 net返回: user
 '''
 def dingdan(user):
-    content = net.sent("dingdan " + user).split()
-    s = ""
-    s += "用户名: " + content[0] + "\n"
-    g.textbox(msg=("订单信息:"%user), title="订单信息", text=s)
+    content = net.sent("dingdan " + user)
+    res = "用户名: " + user + "\n\n"
+    for s in content.strip().split("\n"):
+        s2 = s.split()
+        res += "订单号: " + s2[0] + "\n"
+        res += "单车号: " + s2[1] + "\n"
+        res += "是否仍在租借: " + s2[3] + "\n"
+        res += "\n"
+    g.textbox(msg=("订单信息"), title="订单信息", text=res)
 
+
+def sousuo(user):
+    retval = g.buttonbox(msg="你需要哪种搜索?", title="搜索", choices=\
+    ("完成订单数量最多的用户",
+     "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道",
+     "对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额",
+     "附近单车"))
+    print retval
+    if retval == "完成订单数量最多的用户":
+        result = net.sent('sousuo 1')
+    elif retval == "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道。":
+        result = net.sent('sousuo 2')
+    elif retval == "对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额。":
+        result = net.sent('sousuo 3')
+    elif retval == "附近单车":
+        dins = "shenghuo"
+        street = "dajie"
+        result = "nearby bike ID: " + net.sent('fujin %s %s' % (dins, street))
+    g.textbox(msg=("搜索结果"), title="搜索结果", text=result)
 
 '''
 chaxun(user): 查询界面
@@ -137,11 +167,13 @@ def chaxun(user):
     while True:
         retval = g.buttonbox(msg=("尊敬的%s您好，欢迎使用查询功能，请选择您的查询类别"%user),
                              title="查询",
-                             choices=("订单信息", "账户信息"))
+                             choices=("订单信息", "账户信息", "搜索"))
         if retval == "订单信息":
             dingdan(user)
         elif retval == "账户信息":
             zhanghu(user)
+        elif retval == "搜索":
+            sousuo(user)
         else:
             break
     return
