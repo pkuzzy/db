@@ -18,7 +18,7 @@ for dis in range(len(district)):
 	for ss in range(len(street[dis])):
 		for i in range(3):
 			cnt = cnt + 1
-			bike.write("%08d %02d %.2f %08d\n"%(cnt, random.randint(0, 1), random.uniform(0.50, 2.50), cnt))
+			bike.write("%08d,%02d,%.2f,%08d\n"%(cnt, random.randint(0, 1), random.uniform(0.50, 2.50), cnt))
 			lol = (lo_r[dis][1] - lo_r[dis][0]) * dis_r[dis][ss][0][0] + lo_r[dis][0]
 			lor = (lo_r[dis][1] - lo_r[dis][0]) * dis_r[dis][ss][0][1] + lo_r[dis][0]
 			lal = (la_r[dis][1] - la_r[dis][0]) * dis_r[dis][ss][1][0] + la_r[dis][0]
