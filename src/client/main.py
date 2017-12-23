@@ -37,7 +37,7 @@ net返回: ok exist
 def register():
     msg = "请填写一下信息(其中带*号的项为必填项)"
     title = "注册"
-    fieldNames = ["*用户名", "*密码"]
+    fieldNames = ["*用户名", "性别", "职业", "*密码"]
     fieldValues = []
     fieldValues = g.multpasswordbox(msg, title, fieldNames)
     while True:

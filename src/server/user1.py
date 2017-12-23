@@ -20,13 +20,14 @@ def login(username, password, db, cursor):
 		return data[3]
 	return "wrong"
 
-def register(username, password, db, cursor):
+def register(username, gender, career, password, db, cursor):
 	SQL = "SELECT * from User where usr_name = '%s'" % (username)
 	cursor.execute(SQL)
 	data = cursor.fetchone()
 	if data != None:
 		return "exist" 
-	SQL = "INSERT INTO User (usr_name, password, usr_type, rmoney) VALUES ('%s', '%s', '%s', '%g')" % (username, password, 'user', 0)	
+	SQL = "INSERT INTO User (usr_name, password, gender, career, usr_type, rmoney) VALUES ('%s', '%s', '%s', '%s', '%s', '%g')" % (username, password, gender, career, 'user', 0)	
+	print SQL
 	cursor.execute(SQL)
 	db.commit()
 	return 'ok'
@@ -37,7 +38,7 @@ def inform(username, db, cursor):
 	data = cursor.fetchone()
 	if data == None:
 		return None
-	return data[1], data[3], data[4]
+	return data[1], data[4], data[5], data[3], data[6]
 
 def delete(username, db, cursor):
 	SQL = "SELECT * from User where usr_name = '%s'" % (username)

@@ -3,7 +3,7 @@ import easygui as g
 import net
 import time
 import threading
-
+import random 
 
 '''
 user.main(user): 用户界面，user表示用户名
@@ -119,8 +119,10 @@ def zhanghu(user):
     content = net.sent("zhanghu " + user).split()
     s = ""
     s += "用户名: " + content[0] + "\n"
-    s += "用户类型: " + content[1] + "\n"
-    s += "账户余额: " + content[2] + "\n"
+    s += "性别: " + content[1] + "\n"
+    s += "职业: " + content[2] + "\n" 
+    s += "用户类型: " + content[3] + "\n"
+    s += "账户余额: " + content[4] + "\n"
     g.textbox(msg=("账户信息:"), title="账户信息", text=s)
 
 
@@ -145,19 +147,23 @@ def sousuo(user):
     retval = g.buttonbox(msg="你需要哪种搜索?", title="搜索", choices=\
     ("完成订单数量最多的用户",
      "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道",
-     "对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额",
+     #"对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额",
      "附近单车"))
     print retval
     if retval == "完成订单数量最多的用户":
         result = net.sent('sousuo 1')
-    elif retval == "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道。":
+    elif retval == "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道":
         result = net.sent('sousuo 2')
-    elif retval == "对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额。":
-        result = net.sent('sousuo 3')
+    #elif retval == "对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额":
+        #result = net.sent('sousuo 3')
     elif retval == "附近单车":
-        dins = "shenghuo"
-        street = "dajie"
-        result = "nearby bike ID: " + net.sent('fujin %s %s' % (dins, street))
+        district = ["jiaoxuequ", "shenghuoqu"]
+        street = [["lijiao", "erjiao", "yannan"], ["xuewu", "yiyuan"]]
+        seed1 = random.randint(0, 1)
+        seed2 = random.randint(0, 1)
+        dins = district[seed1]
+        stre = street[seed1][seed2]
+        result = "nearby bike ID: " + net.sent('fujin %s %s' % (dins, stre))
     g.textbox(msg=("搜索结果"), title="搜索结果", text=result)
 
 '''

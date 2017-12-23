@@ -13,9 +13,9 @@ def rent(username, bike_id, db, cursor):
 	data = cursor.fetchone()
 	if data == None:
 		return 'not_exist'
-	if int(data[1]) == 0:
+	if int(data[2]) == 0:
 		return 'broken'
-	min_cost = float(data[2])
+	min_cost = float(data[3])
 	SQL = "SELECT * from Orders where bike_id = '%d' AND order_status = '1'" % (bike_id)
 	cursor.execute(SQL)
 	data = cursor.fetchone()
@@ -29,7 +29,7 @@ def rent(username, bike_id, db, cursor):
 	SQL = "SELECT * from User where usr_name = '%s'" % (username)
 	cursor.execute(SQL)
 	data = cursor.fetchone()
-	if float(data[4]) < min_cost:
+	if float(data[6]) < min_cost:
 		return "no_money"
 	SQL = "INSERT INTO Orders (bike_id, usr_name, order_status) VALUES ('%d', '%s', '1')" \
 			% (bike_id, username)

@@ -76,7 +76,7 @@ def danche():
         if retval == None:
             break
         if retval == "增加单车":
-            fieldNames = ["ID", "info"]
+            fieldNames = ["ID", "type", "state", "cost", "district", "street", "longitude", "latitude"]
             fieldValues = []
             fieldValues = g.multenterbox("填写单车信息", "增加单车", fieldNames)
             if fieldValues == None:
@@ -106,11 +106,12 @@ def danche():
             if l[0] == "ok":
                 s = "单车编号: " + fieldValues[0] + "\n"
                 s += "单车类型: " + l[1] + "\n"
-                s += "单车单价: " + l[2] + "\n"
-                s += "单车区域: " + l[3] + "\n"
-                s += "单车街道: " + l[4] + "\n"
-                s += "经度: " + l[5] + "\n"
-                s += "维度: " + l[6] + "\n"
+                s += "单车状态: " + l[2] + "\n"
+                s += "单车单价: " + l[3] + "\n"
+                s += "单车区域: " + l[4] + "\n"
+                s += "单车街道: " + l[5] + "\n"
+                s += "经度: " + l[6] + "\n"
+                s += "维度: " + l[7] + "\n"
                 g.textbox(msg="单车信息如下:", title="单车信息", text=s)
             elif l[0] == "not_exist":
                 g.msgbox("单车不存在", title="删除单车")

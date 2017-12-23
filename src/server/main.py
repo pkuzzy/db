@@ -12,7 +12,7 @@ def main():
 	cursor = db.cursor()
 	s = socket.socket()
 	host = socket.gethostname()
-	port = 30005
+	port = 30011
 	s.bind((host, port))
 	s.listen(10)
 	while True:

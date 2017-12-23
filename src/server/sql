@@ -1,0 +1,26 @@
+select B.street
+from (select dinstinct, street, count(*) as num
+      from (select bike_id
+      	    from Bike
+      	    where bike_type = 0) as BB
+      	    join Location on BB.bike_id = loc_id
+      group by dinstinct, street) as B,
+     (select dinstinct, street, count(*) as num
+      from (select bike_id
+      	    from Bike) as TB
+      	    join Location on TB.bike_id = loc_id
+      group by dinstinct, street) as T
+where B.dinstinct = T.dinstinct and B.street = T.street and B.num*2 > T.num;
+
+
+select A.usr_name 
+from (select usr_name, count(*) as num 
+from Orders where order_status = 0 group by usr_name) as A
+where NOT EXISTS
+(select * from 
+	(select usr_name, count(*) as num 
+	from Orders where order_status = 0 group by usr_name) as B,
+	(select usr_name, count(*) as num 
+	from Orders where order_status = 0 group by usr_name) as C
+	where A.usr_name = B.usr_name and B.num < C.num);
+

@@ -15,12 +15,12 @@ def insert(ID, info, db, cursor):
 	if data != None:
 		return 'exist'
 	SQL = "INSERT INTO Location (loc_id, dinstinct, street, longitude, latitude) VALUES ('%d', '%s', '%s', '%g', '%g')"\
-			% (ID, info[2], info[3], float(info[4]), float(info[5]))	
+			% (ID, info[3], info[4], float(info[5]), float(info[6]))	
 	# print SQL
 	cursor.execute(SQL)
 	db.commit()
-	SQL = "INSERT INTO Bike (bike_id, bike_type, cost_per_min, bike_location) VALUES ('%d', '%d', '%g', '%d')" \
-			% (ID, int(info[0]), float(info[1]), ID)
+	SQL = "INSERT INTO Bike (bike_id, bike_type, bike_state, cost_per_min, bike_location) VALUES ('%d', '%d', '%d', '%g', '%d')" \
+			% (ID, int(info[0]), float(info[1]), float(info[2]), ID)
 	cursor.execute(SQL)
 	db.commit()
 	return 'ok'
@@ -46,7 +46,8 @@ def query(ID, db, cursor):
 	if data == None:
 		return 'not_exist'
 	bike_type = int(data[1])
-	cost_per_min = float(data[2])
+	bike_state = int(data[2])
+	cost_per_min = float(data[3])
 	SQL = "SELECT * from Location where loc_id = '%d'" % (ID)
 	cursor.execute(SQL)
 	data = cursor.fetchone()
@@ -54,7 +55,7 @@ def query(ID, db, cursor):
 	street = data[2]
 	longitude = float(data[3])
 	latitude = float(data[4])
-	return 'ok', bike_type, cost_per_min, dinstinct, street, longitude, latitude
+	return 'ok', bike_type, bike_state, cost_per_min, dinstinct, street, longitude, latitude
 
 def nearby(dinstinct, street, db, cursor):
 	SQL = "SELECT bike_id from Bike, Location where bike_id = loc_id and dinstinct = '%s' and street = '%s'" \

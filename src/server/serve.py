@@ -17,7 +17,7 @@ def sendms(lis):
 def select(s, db, cursor):
 	s = s.split()
 	if s[0] == 'register':
-		res = user.register(s[1], s[2], db, cursor)
+		res = user.register(s[1], s[2], s[3], s[4], db, cursor)
 	if s[0] == 'login':
 		res = user.login(s[1], s[2], db, cursor)
 	if s[0] == 'dingdan':
