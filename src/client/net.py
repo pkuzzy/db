@@ -7,6 +7,6 @@ def sent(s):
     sk = socket.socket()
     sk.connect(ip_port)
     sk.sendall(s)
-    server_reply = sk.recv(1024)
+    server_reply = sk.recv(4096)
     sk.close()
     return server_reply

@@ -148,7 +148,8 @@ def sousuo(user):
     ("完成订单数量最多的用户",
      "每个行政区内，共享单车数低于区域内街道平均共享单车数的街道",
      #"对于在某个街道内有骑行记录的用户，找出这些用户的总消费金额",
-     "附近单车"))
+     "附近单车",
+     "xml"))
     print retval
     if retval == "完成订单数量最多的用户":
         result = net.sent('sousuo 1')
@@ -164,6 +165,14 @@ def sousuo(user):
         dins = district[seed1]
         stre = street[seed1][seed2]
         result = "nearby bike ID: " + net.sent('fujin %s %s' % (dins, stre))
+    elif retval == "xml":
+        district = ["jiaoxuequ", "shenghuoqu"]
+        street = [["lijiao", "erjiao", "yannan"], ["xuewu", "yiyuan"]]
+        seed1 = random.randint(0, 1)
+        seed2 = random.randint(0, 1)
+        dins = district[seed1]
+        stre = street[seed1][seed2]
+        result = net.sent('xml %s %s %s' % (user, dins, stre))
     g.textbox(msg=("搜索结果"), title="搜索结果", text=result)
 
 '''

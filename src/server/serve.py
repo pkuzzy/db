@@ -6,6 +6,7 @@
 import bike
 import order
 import user1 as user
+import xml
 import MySQLdb
 import search
 
@@ -47,6 +48,8 @@ def select(s, db, cursor):
 		res = bike.nearby(s[1], s[2], db, cursor)
 	if s[0] == 'sousuo':
 		res = search.query(int(s[1]), db, cursor)
+	if s[0] == 'xml':
+		res = xml.ret_xml(s[1], [s[2], s[3]], db, cursor)
 	print sendms(res)
 	return sendms(res)
 
